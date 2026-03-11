@@ -76,13 +76,11 @@ public class CnpParser {
             System.out.println("County: " + david.getCountyName());
             System.out.println("Nationality: " + david.getNationality());
         } else {
-            System.out.println("The CNP provided is invalid!");
+            System.out.println("Bad Ending.");
         }
     }
 
-    public CnpParser() {
-    
-    }
+    public CnpParser() {}
     
     public static CNP parseCNP(String rawCNP){
   

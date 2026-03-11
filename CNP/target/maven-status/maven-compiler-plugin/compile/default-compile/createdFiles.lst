@@ -1,2 +1,4 @@
-com\mycompany\cnp\CNP.class
+com\mycompany\cnp\CnpApplication.class
 com\mycompany\cnp\CnpParser.class
+com\mycompany\cnp\CnpController.class
+com\mycompany\cnp\CNP.class
