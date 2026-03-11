@@ -65,20 +65,7 @@ public class CnpParser {
         COUNTY_MAP.put("70", "Unknown");
     } // COUNTRY MAP DICTIONARY
     
-    public static void main(String[] args){
-        System.out.println("Hello!");
-
-        CNP david = CnpParser.parseCNP("5040727385594");
-
-        if (david.isValid()) {
-            System.out.println("Gender: " + david.getGender());
-            System.out.println("Birth Date: " + david.getBirthDate());
-            System.out.println("County: " + david.getCountyName());
-            System.out.println("Nationality: " + david.getNationality());
-        } else {
-            System.out.println("Bad Ending.");
-        }
-    }
+    public static void main(String[] args) {}
 
     public CnpParser() {}
     
@@ -97,6 +84,7 @@ public class CnpParser {
         String birthDate = extractBirthDate(rawCNP);
         String county = extractCounty(rawCNP);
         String nationality = extractNationality(rawCNP);
+        String serialCode = extractSerialCode(rawCNP);
         
         if( gender.equals(INVALID_ERROR) || birthDate.equals(INVALID_ERROR) || 
             county.equals(INVALID_ERROR) || nationality.equals(INVALID_ERROR) ){
@@ -107,6 +95,7 @@ public class CnpParser {
         result.setBirthDate(birthDate);
         result.setCountyName(county);
         result.setNationality(nationality);
+        result.setSerialCode(serialCode);
         result.setValid(true);
         
         return result;
@@ -118,24 +107,31 @@ public class CnpParser {
         return invalid;
     }
     
-    private static boolean isValidCheckSum(String rawCNP){
+    private static boolean isValidCheckSum(String rawCNP) {
+        if (rawCNP == null || rawCNP.length() != 13) return false;
+
+        int[] weights = {2, 7, 9, 1, 4, 6, 3, 5, 8, 2, 7, 9};
         int sum = 0;
-        for( int i = 0; i < 12; i++ ){
-            int cnpDigit = Character.getNumericValue(rawCNP.charAt(i));
-            int constDigit = Character.getNumericValue(VALID_CONST.charAt(i));
-            sum += cnpDigit * constDigit;
+
+        for (int i = 0; i < 12; i++) {
+            // Subtracting '0' is often safer than getNumericValue in some environments
+            int digit = rawCNP.charAt(i) - '0';
+            sum += digit * weights[i];
         }
+
         int remainder = sum % 11;
-        int controlDigit = (remainder < 10) ? remainder : 1;
-        return controlDigit == Character.getNumericValue(rawCNP.charAt(12));
+        int expectedLastDigit = (remainder == 10) ? 1 : remainder;
+        int actualLastDigit = rawCNP.charAt(12) - '0';
+
+        return expectedLastDigit == actualLastDigit;
     }
     
     public static String extractGender(String rawCNP){
         char genderDigit = rawCNP.charAt(0);
         return switch (genderDigit) {
-            case '1', '3', '5', '7' -> "male";
-            case '2', '4', '6', '8' -> "female";
-            case '9'                -> "unknown";
+            case '1', '3', '5', '7' -> "Male";
+            case '2', '4', '6', '8' -> "Female";
+            case '9'                -> "Unknown";
             default                 -> "invalid";
         };
     }
@@ -179,6 +175,10 @@ public class CnpParser {
             case '9'                          -> "Foreigner";
             default                           -> "invalid";
         };
+    }
+    
+    private static String extractSerialCode(String rawCNP){
+        return ("#" + rawCNP.substring(9, 12));
     }
     
 }

@@ -6,6 +6,7 @@ public class CNP {
     private String birthDate;
     private String countyName;
     private String nationality;
+    private String serialCode;
     private boolean isValid;
     
     public CNP() {}
@@ -21,6 +22,9 @@ public class CNP {
     
     public String getNationality() { return nationality; }
     public void setNationality(String nationality) { this.nationality = nationality; }
+    
+    public String getSerialCode() { return serialCode; }
+    public void setSerialCode(String serialCode) { this.serialCode = serialCode; }
 
     public boolean isValid() { return isValid; }
     public void setValid(boolean valid) { isValid = valid; }
