@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CNP Validator Tool</title>
+    <link rel="stylesheet" href="cnpstyle.css">
+	<script src="cnpscript.js"></script>
+</head>
+<body>
+
+    <div class="card">
+        <h2>CNP Validator</h2>
+        <p>Enter a 13-digit Romanian CNP to extract details.</p>
+        
+        <div class="input-group">
+            <input type="text" id="cnpInput" placeholder="cnp">
+            <button onclick="parseCNP()">Check Details</button>
+        </div>
+
+        <div id="result" class="result-box">
+            <p><strong>Gender:</strong> <span id="resGender"></span></p>
+            <p><strong>Birth Date:</strong> <span id="resDate"></span></p>
+            <p><strong>County:</strong> <span id="resCounty"></span></p>
+			<p><strong>Serial Code:</strong> <span id="resCode"></span></p>
+            <p><strong>Status:</strong> <span id="resValid"></span></p>
+        </div>
+    </div>
+
+</body>
+</html>
